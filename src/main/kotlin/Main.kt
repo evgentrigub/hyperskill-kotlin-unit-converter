@@ -1,24 +1,34 @@
 package converter
 
 fun main() {
-    println("Enter a number and a measure:")
+    print("Enter a number and a measure of length: ")
+    val amount: Double
+    var inputUnit = ""
+
     try {
         val input = readln().split(" ")
-        val num = input[0].toInt()
-        val unit: String = input[1].lowercase().trim()
-        val result = convertInput(num, unit)
-        println(result)
-    } catch (ex: NumberFormatException) {
-        println("Wrong input")
+        amount = input[0].toDouble()
+        inputUnit = input[1].lowercase().trim()
+
+        processConversion(inputUnit, amount)
+    } catch (ex: Exception) {
+        println("Wrong input. Unknown unit $inputUnit")
     }
 }
 
-fun convertInput (num: Int, unitNormalized: String): String {
-    if (unitNormalized == "km" || unitNormalized.matches(Regex("kilometers?"))){
-        val converted = num * 1000
-        val km = if(num == 1) "kilometer" else "kilometers"
-        return "$num $km is $converted meters"
-    } else {
-        return "Wrong input"
+private fun processConversion(inputUnit: String, amount: Double) {
+    for (unit in Unit.entries) {
+        if (unit.pattern.matches(inputUnit.lowercase())) {
+            println(convertInput(amount, unit))
+            return
+        }
     }
+    throw IllegalArgumentException("Conversion from $inputUnit to meters is not supported")
+}
+
+fun convertInput (amount: Double, initialUnit: Unit): String {
+    val result =  initialUnit.amountInMeter * amount
+    val initialUnitName = if (amount != 1.0) initialUnit.pluralName else initialUnit.singularName
+    val targetUnitName = "meter" + if (result != 1.0) "s" else ""
+    return "$amount $initialUnitName is $result $targetUnitName"
 }
