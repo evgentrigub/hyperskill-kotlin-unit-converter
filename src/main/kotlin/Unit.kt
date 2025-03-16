@@ -1,17 +1,24 @@
 package converter
 
-enum class Unit(
+enum class UnitBase(
+    val type: Char,
     val singularName: String,
     val pluralName: String = singularName,
     val pattern: Regex,
-    val amountInMeter: Double,
+    val multiplayer: Double,
 ) {
-    METERS("meter", "meters", pattern = Regex("""m|meters?"""), amountInMeter = 1.0),
-    KM("kilometer", "kilometers", pattern = Regex("km|kilometers?"), amountInMeter = 1000.0),
-    CM("centimeter", "centimeters", pattern = Regex("cm|centimeters?"), amountInMeter = 0.01),
-    MM("millimeter", "millimeters", pattern = Regex("mm|millimeters?"), amountInMeter = 0.001),
-    MI("mile", "miles", pattern = Regex("mi|miles?"), amountInMeter = 1609.35),
-    YD("yard", "yards", pattern = Regex("yd|yards?"), amountInMeter = 0.9144),
-    FT("foot", "feet", Regex("ft|foot|feet"), amountInMeter = 0.3048),
-    IN("inch", "inches", Regex("in|inch(es)?"), amountInMeter = 0.0254)
+    METERS('L', "meter", "meters", Regex("""m|meters?"""), 1.0),
+    KM('L',"kilometer", "kilometers", Regex("km|kilometers?"), 1000.0),
+    CM('L',"centimeter", "centimeters", Regex("cm|centimeters?"), 0.01),
+    MM('L',"millimeter", "millimeters", Regex("mm|millimeters?"), 0.001),
+    MI('L',"mile", "miles", Regex("mi|miles?"), 1609.35),
+    YD('L',"yard", "yards", Regex("yd|yards?"), 0.9144),
+    FT('L',"foot", "feet", Regex("ft|foot|feet"), 0.3048),
+    IN('L',"inch", "inches", Regex("in|inch(es)?"), 0.0254),
+    Gram('W', "gram", "grams", Regex("""g|grams?"""),1.0),
+    Kilogram('W', "kilogram", "kilograms", Regex("""kg|kilograms?"""),1000.0),
+    Milligram('W', "milligram", "milligrams", Regex("""mg|milligrams?"""),0.001),
+    Pound('W', "pound", "pounds", Regex("""lb|pounds?"""),453.592),
+    Ounce('W', "ounce", "ounces", Regex("""oz|ounce(s)?"""),28.3495),
+    BLANK('0', "", "", Regex(""),0.0)
 }
